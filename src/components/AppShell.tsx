@@ -1,4 +1,5 @@
-import { Link, Outlet, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { Trophy, LayoutDashboard, Radio, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,7 +10,7 @@ const nav = [
   { to: "/analysis", label: "AI Analysis", icon: Sparkles },
 ];
 
-export function AppShell() {
+export function AppShell({ children }: { children: ReactNode }) {
   const loc = useLocation();
   return (
     <div className="min-h-screen bg-background">
@@ -44,9 +45,7 @@ export function AppShell() {
           </nav>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-6 py-10">
-        <Outlet />
-      </main>
+      <main className="mx-auto max-w-7xl px-6 py-10">{children}</main>
     </div>
   );
 }
