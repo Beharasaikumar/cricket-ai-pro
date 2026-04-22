@@ -10,20 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TournamentsRouteImport } from './routes/tournaments'
-import { Route as LiveRouteImport } from './routes/live'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LiveIndexRouteImport } from './routes/live/index'
 import { Route as TournamentsIdRouteImport } from './routes/tournaments.$id'
-import { Route as LiveMatchIdRouteImport } from './routes/live.$matchId'
+import { Route as LiveMatchIdRouteImport } from './routes/live/$matchId'
 
 const TournamentsRoute = TournamentsRouteImport.update({
   id: '/tournaments',
   path: '/tournaments',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LiveRoute = LiveRouteImport.update({
-  id: '/live',
-  path: '/live',
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalysisRoute = AnalysisRouteImport.update({
@@ -36,74 +43,94 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LiveIndexRoute = LiveIndexRouteImport.update({
+  id: '/live/',
+  path: '/live/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TournamentsIdRoute = TournamentsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => TournamentsRoute,
 } as any)
 const LiveMatchIdRoute = LiveMatchIdRouteImport.update({
-  id: '/$matchId',
-  path: '/$matchId',
-  getParentRoute: () => LiveRoute,
+  id: '/live/$matchId',
+  path: '/live/$matchId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
-  '/live': typeof LiveRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/tournaments': typeof TournamentsRouteWithChildren
   '/live/$matchId': typeof LiveMatchIdRoute
   '/tournaments/$id': typeof TournamentsIdRoute
+  '/live/': typeof LiveIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
-  '/live': typeof LiveRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/tournaments': typeof TournamentsRouteWithChildren
   '/live/$matchId': typeof LiveMatchIdRoute
   '/tournaments/$id': typeof TournamentsIdRoute
+  '/live': typeof LiveIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
-  '/live': typeof LiveRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/tournaments': typeof TournamentsRouteWithChildren
   '/live/$matchId': typeof LiveMatchIdRoute
   '/tournaments/$id': typeof TournamentsIdRoute
+  '/live/': typeof LiveIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/analysis'
-    | '/live'
+    | '/login'
+    | '/signup'
     | '/tournaments'
     | '/live/$matchId'
     | '/tournaments/$id'
+    | '/live/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analysis'
-    | '/live'
+    | '/login'
+    | '/signup'
     | '/tournaments'
     | '/live/$matchId'
     | '/tournaments/$id'
+    | '/live'
   id:
     | '__root__'
     | '/'
     | '/analysis'
-    | '/live'
+    | '/login'
+    | '/signup'
     | '/tournaments'
     | '/live/$matchId'
     | '/tournaments/$id'
+    | '/live/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalysisRoute: typeof AnalysisRoute
-  LiveRoute: typeof LiveRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
   TournamentsRoute: typeof TournamentsRouteWithChildren
+  LiveMatchIdRoute: typeof LiveMatchIdRoute
+  LiveIndexRoute: typeof LiveIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,11 +142,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TournamentsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/live': {
-      id: '/live'
-      path: '/live'
-      fullPath: '/live'
-      preLoaderRoute: typeof LiveRouteImport
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analysis': {
@@ -136,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/live/': {
+      id: '/live/'
+      path: '/live'
+      fullPath: '/live/'
+      preLoaderRoute: typeof LiveIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tournaments/$id': {
       id: '/tournaments/$id'
       path: '/$id'
@@ -145,23 +186,13 @@ declare module '@tanstack/react-router' {
     }
     '/live/$matchId': {
       id: '/live/$matchId'
-      path: '/$matchId'
+      path: '/live/$matchId'
       fullPath: '/live/$matchId'
       preLoaderRoute: typeof LiveMatchIdRouteImport
-      parentRoute: typeof LiveRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface LiveRouteChildren {
-  LiveMatchIdRoute: typeof LiveMatchIdRoute
-}
-
-const LiveRouteChildren: LiveRouteChildren = {
-  LiveMatchIdRoute: LiveMatchIdRoute,
-}
-
-const LiveRouteWithChildren = LiveRoute._addFileChildren(LiveRouteChildren)
 
 interface TournamentsRouteChildren {
   TournamentsIdRoute: typeof TournamentsIdRoute
@@ -178,9 +209,21 @@ const TournamentsRouteWithChildren = TournamentsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalysisRoute: AnalysisRoute,
-  LiveRoute: LiveRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
   TournamentsRoute: TournamentsRouteWithChildren,
+  LiveMatchIdRoute: LiveMatchIdRoute,
+  LiveIndexRoute: LiveIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

@@ -1,48 +1,43 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/lib/auth";
 import appCss from "../styles.css?url";
-
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <div className="mt-6">
-          <Link to="/" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CricketAI — Tournament Scheduling & Live Analysis" },
-      { name: "description", content: "AI-powered cricket tournament scheduling, live scoring and match analysis." },
+      { title: "CricketAI — Tournament Command Center" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap",
+      },
+    ],
   }),
-  shellComponent: RootShell,
-  component: () => (
-    <>
-      <Outlet />
-      <Toaster />
-    </>
-  ),
-  notFoundComponent: NotFoundComponent,
-});
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
+  shellComponent: ({ children }: { children: React.ReactNode }) => (
     <html lang="en">
       <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <body style={{ margin: 0, background: "#06090f" }}>{children}<Scripts /></body>
     </html>
-  );
-}
+  ),
+  component: () => (
+    <AuthProvider>
+      <Outlet />
+      <Toaster theme="dark" position="bottom-right" />
+    </AuthProvider>
+  ),
+  notFoundComponent: () => (
+    <div style={{ display: "flex", minHeight: "100vh", alignItems: "center", justifyContent: "center", background: "#06090f" }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 96, fontWeight: 900, color: "#f0fdf4", fontFamily: "'Barlow Condensed',sans-serif", letterSpacing: "-4px" }}>404</div>
+        <div style={{ color: "#6b7280", marginBottom: 24 }}>Page not found</div>
+        <Link to="/" style={{ padding: "10px 24px", background: "#10b981", color: "white", borderRadius: 8, textDecoration: "none", fontWeight: 600 }}>Go home</Link>
+      </div>
+    </div>
+  ),
+});

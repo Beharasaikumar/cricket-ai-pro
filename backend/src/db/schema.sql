@@ -41,3 +41,48 @@ CREATE TABLE IF NOT EXISTS ball_events (
   wicket BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+
+--  PLAYERS TABLE
+CREATE TABLE IF NOT EXISTS players (
+  id SERIAL PRIMARY KEY,
+  team_id INT NOT NULL,
+  name TEXT NOT NULL,
+
+  CONSTRAINT fk_team
+    FOREIGN KEY (team_id)
+    REFERENCES teams(id)
+    ON DELETE CASCADE
+);
+
+--  PLAYER STATS TABLE
+CREATE TABLE IF NOT EXISTS player_stats (
+  id SERIAL PRIMARY KEY,
+  match_id INT NOT NULL,
+  player_id INT NOT NULL,
+  runs INT DEFAULT 0,
+  balls INT DEFAULT 0,
+  wickets INT DEFAULT 0,
+
+  CONSTRAINT fk_match
+    FOREIGN KEY (match_id)
+    REFERENCES matches(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_player
+    FOREIGN KEY (player_id)
+    REFERENCES players(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT unique_player_match
+    UNIQUE (match_id, player_id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'viewer' CHECK (role IN ('admin','scorer','viewer')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
