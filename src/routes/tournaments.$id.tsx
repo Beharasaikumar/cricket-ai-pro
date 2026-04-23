@@ -208,12 +208,12 @@ function TournamentDetail() {
                           {m.status !== "scheduled" && (
                             <div style={{ display: "flex", gap: 16, marginTop: 6 }}>
                               <div style={{ fontSize: 13, fontFamily: "'JetBrains Mono',monospace", fontWeight: 700, color: "#e2e8f0" }}>
-                                {m.team_a_name.split(" ")[0]}: <span style={{ color: "#f0fdf4" }}>{m.team_a_runs}/{m.team_a_wickets}</span>
-                                <span style={{ color: "#6b7280", fontWeight: 400 }}> ({m.team_a_overs} ov)</span>
+                                {m.team_a_name.split(" ")[0]}: <span style={{ color: "#f0fdf4" }}>{m.inn1_runs}/{m.inn1_wickets}</span>
+                                <span style={{ color: "#6b7280", fontWeight: 400 }}> ({m.inn1_overs} ov)</span>
                               </div>
                               <div style={{ fontSize: 13, fontFamily: "'JetBrains Mono',monospace", fontWeight: 700, color: "#e2e8f0" }}>
-                                {m.team_b_name.split(" ")[0]}: <span style={{ color: "#f0fdf4" }}>{m.team_b_runs}/{m.team_b_wickets}</span>
-                                <span style={{ color: "#6b7280", fontWeight: 400 }}> ({m.team_b_overs} ov)</span>
+                                {m.team_b_name.split(" ")[0]}: <span style={{ color: "#f0fdf4" }}>{m.inn2_runs}/{m.inn2_wickets}</span>
+                                <span style={{ color: "#6b7280", fontWeight: 400 }}> ({m.inn2_overs} ov)</span>
                               </div>
                               {/* Winner callout */}
                               {m.status === "completed" && m.winner_id && (

@@ -170,8 +170,8 @@ function MatchCard({ m }: { m: Match }) {
         <span style={{ fontSize: 11.5, color: "#4b5563" }}>{m.venue}</span>
       </div>
       {[
-        { name: m.team_a_name, runs: m.team_a_runs, wkts: m.team_a_wickets, overs: m.team_a_overs },
-        { name: m.team_b_name, runs: m.team_b_runs, wkts: m.team_b_wickets, overs: m.team_b_overs },
+        { name: m.team_a_name, runs: m.inn1_runs, wkts: m.inn1_wickets, overs: m.inn1_overs },
+        { name: m.team_b_name, runs: m.inn2_runs, wkts: m.inn2_wickets, overs: m.inn2_overs },
       ].map((team, i) => (
         <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderTop: i === 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0" }}>{team.name}</span>

@@ -60,7 +60,7 @@ function LivePage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   {m.status !== "scheduled" && (
                     <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 13, fontWeight: 600, color: "#e2e8f0" }}>
-                      {m.team_a_runs}/{m.team_a_wickets} · {m.team_b_runs}/{m.team_b_wickets}
+                      {m.inn1_runs}/{m.inn1_wickets} · {m.inn2_runs}/{m.inn2_wickets}
                     </span>
                   )}
                   <StatusBadge status={m.status} />
